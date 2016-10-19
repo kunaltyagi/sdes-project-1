@@ -6,6 +6,8 @@ Oscillator class and related tests
 """
 import numpy as np
 import scipy as sp
+# some error
+from scipy.integrate import odeint
 
 class Oscillator(object):
     """
