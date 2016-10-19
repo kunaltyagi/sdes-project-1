@@ -34,3 +34,43 @@ class Sequence(object):
         return plt.plot(data, color=self.color, marker=self.marker,
                 linestyle=self.linestyle, linewidth=self.width,
                 label=self.label)
+
+class Plot(object):
+    def __init__(self):
+        self.x = {}
+        self.y = {}
+        self.legend = None
+        self.font_size = 0
+        self.title = ''
+
+    def reset(self):
+        self.set_axis()
+        self.set_legend()
+        self.set_title()
+        self.set_font_size()
+
+    def set_axis(self, x='time', y='magnitude'):
+        self.x['label'] = x
+        self.y['label'] = y
+
+    def set_title(self, title='Van der Poll Oscillator')
+        self.title = title
+
+    def set_legend(self, legend=True):
+        self.legend = legend
+
+    def set_font(self, font):
+        pass
+
+    def set_font_size(self, size=12):
+        self.font_size = size
+
+    def plot(self, sequences):
+        fig = plt.figure()
+        fig.suptitle(self.title, fontsize=self.font_size)
+        mpl.rcParams['font.size'] = self.font_size
+        for seq in sequences:
+            seq.plot()
+        if self.legend:
+            plt.legend()
+        plt.show()
