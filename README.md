@@ -18,3 +18,9 @@ The following python packages are required:
 
 The following packages are required:
 * python3-tk (systems with default version as Python 2 might not have it)
+
+## Installation Help
+Using proper privileges
+* ```apt install python3 python3-pip python3-tk```
+* ```pip3 install numpy scipy matplotlib```
+
