@@ -29,7 +29,7 @@ class Oscillator(object):
     def solve(self, begin, end, time_step):
         time = np.arange(begin + time_step, end + time_step, time_step)
         solution = sp.integrate.odeint(self.get_next_time_step,
-                                       [self.x0,self.x1], time)
+                                       [self.x0, self.x1], time)
         return solution
 
     def _no_scipy_solve(self, begin, end, time_step):
@@ -45,3 +45,28 @@ class Oscillator(object):
 
     def __call__(self, *args):
         return self.get_next_time_step(args[0], args[1])
+
+def test():
+    # trivial test
+    no_mu = Oscillator(mu=0)
+    ans = no_mu.get_next_time_step([1, 0], 9)
+    assert ans[0] == 0
+    assert ans[1] == -1
+
+    # test by makin each part of the Y[1]' 0
+    mu = Oscillator(mu=1)
+    ans = mu.get_next_time_step([1, 5], 9)
+    assert ans[0] == 5
+    assert ans[1] == -1
+    ans = mu.get_next_time_step([-3, 0], 9)
+    assert ans[0] == 0
+    assert ans[1] == 3
+
+    # test with mu = 1
+    unity_mu = Oscillator(mu=1)
+    ans = unity_mu.get_next_time_step([0, -1], 9)
+    assert ans[0] == -1
+    assert ans[1] == -1
+
+if __name__ == "__main__":
+    test()
