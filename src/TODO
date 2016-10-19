@@ -1,0 +1,18 @@
+Makefile:
+
+    make clean
+    make
+    make test
+
+IPython notebook:
+??
+
+latex:
+* Public git repo, where the source is available
+* version of the program that is required for running the code
+* Date when the pdf-file was generated
+* parameters used (should get extracted from the Python program
+    and no duplicate entry: once in tex file, once in the Python
+    code.)
+* Author name in the tex file as comment (and also as pdf-file content)
+* At least two references, and coming from bib file only
