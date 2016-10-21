@@ -4,6 +4,7 @@
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
+
 class Sequence(object):
     def __init__(self, data, label='random_max'):
         self.data = None
@@ -39,12 +40,14 @@ class Sequence(object):
     def set_data(self, data):
         self.data = data
 
-    def plot(self, data=None):
+    def plot(self, data=None, lim=[-1,-1]):
         if data:
             self.data = data
-        return plt.plot(self.data, color=self.color, marker=self.marker,
-                linestyle=self.linestyle, linewidth=self.width,
-                label=self.label)
+        if lim == [-1, -1]:
+            lim = [0, len(self.data)]
+        return plt.plot(self.data[lim[0]:lim[1]], color=self.color,
+                        marker=self.marker, linestyle=self.linestyle,
+                        linewidth=self.width, label=self.label)
 
 class Plot(object):
     def __init__(self, sequences=None):
