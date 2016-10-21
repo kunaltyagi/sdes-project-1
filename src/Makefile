@@ -8,3 +8,6 @@ latex:
 
 clean:
 	rm latex/* -fr
+
+test:
+	python3 -m pytest oscillator.py
