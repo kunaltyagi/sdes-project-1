@@ -3,10 +3,11 @@
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-
+from movie_writer import save_plot
 
 class Sequence(object):
     def __init__(self, data, label='random_max'):
+        self.fig = None
         self.data = None
         self.color = ''
         self.marker = ''
@@ -15,6 +16,7 @@ class Sequence(object):
         self.reset(label=label, data=data)
 
     def reset(self, label='random_max', data=None):
+        self.fig = None
         self.set_line_width()
         self.set_line_style()
         self.set_marker()
@@ -88,18 +90,21 @@ class Plot(object):
         for key, value in data.items():
             self.font_type[key] = value
 
+    def save(self, name):
+        save_plot(self.fig, str(name))
+
     def plot(self, sequences=None):
         if sequences:
             self.sequences = sequences
-        # fig = plt.figure()
-        # fig.suptitle(self.title, fontsize=self.font_size)
+        self.fig = plt.figure()
+        self.fig.suptitle(self.title, fontsize=self.font_size['title'])
         mpl.rcParams['font.size'] = self.font_size['legend']
         mpl.rcParams['font.family'] = self.font_type['legend']
 
         for seq in self.sequences:
             seq.plot()
         if self.legend:
-            plt.legend(loc=0)
+            plt.legend(loc=3)
 
         mpl.rcParams['font.size'] = self.font_size['label']
         mpl.rcParams['font.family'] = self.font_type['label']
@@ -107,5 +112,5 @@ class Plot(object):
             getattr(plt, axis + 'label')(self.label[axis])
 
         mpl.rcParams['font.family'] = self.font_type['title']
-        plt.title(self.title, fontdict={'fontsize': self.font_size['title']})
-        plt.show()
+        # plt.title(self.title, fontdict={'fontsize': self.font_size['title']})
+        self.fig.show()
