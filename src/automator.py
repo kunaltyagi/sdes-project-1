@@ -4,11 +4,11 @@
 from oscillator import Oscillator
 from plot import Plot, Sequence
 from movie_writer import save_plot
+from matplotlib import pyplot as plt
 
 def main():
     #init
-    values = [(0, 1), (0.5, 1), (1, 1),
-              (1, 2), (2, 2), (5, 2)]
+    values = [(1, 1), (0, 2), (0.5, 2), (1, 2), (2, 2), (5, 2)]
     osc = []
     for val in values:
         osc.append(Oscillator(mu=val[0], x0=val[1]))
@@ -24,22 +24,60 @@ def main():
     figure = Plot([x1, x2])
     figure.set_legend()
     title = figure.title
+    line = [None]*5
+
+    # phase plots
+    fig=plt.figure()
+    ax=fig.add_subplot(111,autoscale_on=False, xlim=(-3,3), ylim=(-8,8))
+    ax.grid()
+    line[0], line[1], line[2], line[3], line[4], = ax.plot([], [], 'b-',
+                                                           [], [], 'r--',
+                                                           [], [], 'g-.',
+                                                           [], [], 'y*',
+                                                           [], [], 'k-',
+                                                           lw=2)
 
     # solve and plot
     for i, plant in enumerate(osc):
         ans = plant.solve(0, 25, 0.01)
         x1.set_data(ans[:,0])
         x2.set_data(ans[:,1])
-        figure.set_title(title + '\n' +
-                         '$\mu$ = {}, $x$ = {}'.format(plant.mu, plant.x0))
+        figure.set_title(title) # + '\n' + '$\mu$ = {}, $x$ = {}'.format(plant.mu, plant.x0))
         figure.plot()
-        figure.save(i+1)
+        if i:
+            line[i-1].set_data(ans[:,0], ans[:,1])
+        figure.save(i+1, save_plot)
 
-    # wiki image only change mu
-    # phase plot
+    fig.show()
+    from time import sleep
+    sleep(2)
 
     # create latex
-
+    with open('latex/python_params.tex', 'w') as f:
+        f.write("% This is a python generated file. Do not edit since it will be rewritten during make")
+        # params used for images
+        for i in range(0, len(values), 2):
+            f.write(r"""
+\begin{figure}[ht]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{%(1)d}
+        \caption{%(2)s}
+        \label{fig:fig%(1)d}
+    \end{minipage}\hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{%(3)d}
+        \caption{%(4)s}
+        \label{fig:fig%(3)d}
+    \end{minipage}
+\end{figure}
+"""%{
+     '1': i+1, '2': r'$\mu$=%(1).1f, $x_0$=%(2).1f'%{'1': values[i][0],
+                                                 '2': values[i][1]},
+     '3': i+2, '4': r'$\mu$=%(1).1f, $x_0$=%(2).1f'%{'1': values[i+1][0],
+                                                 '2': values[i+1][1]}})
 
 if __name__ == "__main__":
     main()

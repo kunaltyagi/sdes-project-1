@@ -3,7 +3,6 @@
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-from movie_writer import save_plot
 
 class Sequence(object):
     def __init__(self, data, label='random_max'):
@@ -90,8 +89,8 @@ class Plot(object):
         for key, value in data.items():
             self.font_type[key] = value
 
-    def save(self, name):
-        save_plot(self.fig, str(name))
+    def save(self, name, save_fn):
+        save_fn(self.fig, str(name))
 
     def plot(self, sequences=None):
         if sequences:
