@@ -1,5 +1,7 @@
 \documentclass[12pt, a4paper]{article}
 
+% Author: Kunal Tyagi
+
 \usepackage{amsfonts,amssymb,amsthm}
 \usepackage[square,numbers]{natbib}
 \usepackage{graphicx}
@@ -10,15 +12,17 @@
 %opening
 \title{Van-der-Pol Oscillator}
 \author{Kunal Tyagi}
+\date{\today}
 
 \graphicspath{{figure/}}
 \renewcommand\bibname{References}
 
 \begin{document}
 \maketitle
+\cite{wiki, slides}
 
 \input{latex/python_params}
 
 \bibliographystyle{abbrv}
-\bibliography{references}{}
+\bibliography{latex/reference}{}
 \end{document}
