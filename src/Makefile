@@ -7,7 +7,9 @@ latex:
 	mkdir latex
 
 clean:
-	rm latex/* -fr
+	ls latex | grep tex$ -v | sed 's/^/latex\//' | xargs rm -fr
+	rm *.pyc -fr
+	rm __pycache__ -fr
 
 test:
 	python3 -m pytest oscillator.py
