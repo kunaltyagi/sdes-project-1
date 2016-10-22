@@ -13,8 +13,9 @@ latex:
 	mkdir latex
 
 clean:
+	rm latex/python_params.tex
 	ls latex | grep bib$ -v | sed 's/^/latex\//' | xargs rm -fr
-	rm figure/*.png
+	rm figure/*.png -fr
 	rm *.pyc -fr
 	rm __pycache__ -fr
 
