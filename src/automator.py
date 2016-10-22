@@ -28,12 +28,12 @@ def main():
 
     # phase plots
     fig=plt.figure()
-    ax=fig.add_subplot(111,autoscale_on=False, xlim=(-3,3), ylim=(-8,8))
+    ax=fig.add_subplot(111,autoscale_on=False, xlim=(-8,8), ylim=(-8,8))
     ax.grid()
     line[0], line[1], line[2], line[3], line[4], = ax.plot([], [], 'b-',
                                                            [], [], 'r--',
                                                            [], [], 'g-.',
-                                                           [], [], 'y*',
+                                                           [], [], 'yo',
                                                            [], [], 'k-',
                                                            lw=2)
 
@@ -48,9 +48,9 @@ def main():
             line[i-1].set_data(ans[:,0], ans[:,1])
         figure.save(i+1, save_plot)
 
-    fig.show()
-    from time import sleep
-    sleep(2)
+    ax.legend([x[0] for x in values[1:]])
+    fig.suptitle(r"Variation with $\mu$ values")
+    save_plot(fig, 'variation')
 
     # create latex
     with open('latex/python_params.tex', 'w') as f:
