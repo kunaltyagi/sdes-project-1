@@ -8,6 +8,7 @@ latex:
 
 clean:
 	ls latex | grep tex$ -v | sed 's/^/latex\//' | xargs rm -fr
+	rm figure/*.png
 	rm *.pyc -fr
 	rm __pycache__ -fr
 
