@@ -33,7 +33,12 @@ def main():
         figure.set_title(title + '\n' +
                          '$\mu$ = {}, $x$ = {}'.format(plant.mu, plant.x0))
         figure.plot()
-        figure.save(i)
+        figure.save(i+1)
+
+    # wiki image only change mu
+    # phase plot
+
+    # create latex
 
 
 if __name__ == "__main__":

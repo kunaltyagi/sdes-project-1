@@ -31,4 +31,4 @@ def save_plot(plot, name, directory='figure', suffix='png'):
     path = os.path.abspath(directory)
     if not os.path.exists(path):
         os.makedirs(path)
-    plot.savefig(path + '/' + name + '.' + suffix)
+    plot.savefig(path + '/' + name + '.' + suffix, bbox_inches='tight')

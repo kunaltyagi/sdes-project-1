@@ -1,11 +1,24 @@
-\documentclass[]{article}
+\documentclass[12pt, a4paper]{article}
+
+\usepackage{amsfonts,amssymb,amsthm}
+\usepackage[square,numbers]{natbib}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{caption}
+\captionsetup[figure]{labelformat=empty}
 
 %opening
 \title{Van-der-Pol Oscillator}
 \author{Kunal Tyagi}
 
+\graphicspath{{figure/}}
+\renewcommand\bibname{References}
+
 \begin{document}
 \maketitle
+
 \input{latex/python_params}
 
+\bibliographystyle{abbrv}
+\bibliography{references}{}
 \end{document}
