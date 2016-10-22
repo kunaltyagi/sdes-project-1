@@ -8,7 +8,7 @@ all: latex
 	pdflatex -output-directory=latex van_der_pol.tex
 	pdflatex -output-directory=latex van_der_pol.tex
 	rm latex/van_der_pol.tex
-	cp latex/van_der_pol.pdf ../
+	cp latex/120010006.pdf ../
 
 
 latex:
