@@ -19,7 +19,7 @@ class Oscillator(object):
         self.x1 = float(x1)
         self.x2 = float(0)
 
-    def get_next_time_step(self, Y, t):
+    def next_step_normal(self, Y, t):
         # x2 = x1'
         # Y[1] = x1 = x'
         # Y[0] = x
@@ -28,9 +28,18 @@ class Oscillator(object):
         # Y[1]' = u(1-Y[0]**2)*Y[1] - Y[0]
         return [Y[1], self.mu*(1-Y[0]**2)*Y[1] - Y[0]]
 
-    def solve(self, begin, end, time_step):
+    def next_time_alt(self, Y, t):
+        # Lienard Transformation
+        # y = x - x**3/3 - x'/mu
+        # y' = x/mu
+        # x' = mu(x - x**3/3 - y)
+
+        return [self.mu*(Y[0] - (Y[0]**3)/3 - Y[1]), Y[0]/self.mu]
+
+    def solve(self, begin, end, time_step, alt=False):
         time = np.arange(begin + time_step, end + time_step, time_step)
-        solution = sp.integrate.odeint(self.get_next_time_step,
+        get_next_time_step = self.next_time_alt if alt else self.next_step_normal
+        solution = sp.integrate.odeint(get_next_time_step,
                                        [self.x0, self.x1], time)
         return solution
 
@@ -38,7 +47,7 @@ class Oscillator(object):
         time = np.arange(begin + time_step, end + time_step, time_step)
         states = [(self.x2, self.x1, self.x0)]
         for t in time:
-            ans = self.get_next_time_step([self.x0, self.x1], t)
+            ans = self.next_step_normal([self.x0, self.x1], t)
             self.x0 += self.x1*time_step
             self.x1 = ans[0]
             self.x2 = ans[1]
@@ -46,27 +55,27 @@ class Oscillator(object):
         return states
 
     def __call__(self, *args):
-        return self.get_next_time_step(args[0], args[1])
+        return self.next_step_normal(args[0], args[1])
 
 def test():
     # trivial test
     no_mu = Oscillator(mu=0)
-    ans = no_mu.get_next_time_step([1, 0], 9)
+    ans = no_mu.next_step_normal([1, 0], 9)
     assert ans[0] == 0
     assert ans[1] == -1
 
     # test by makin each part of the Y[1]' 0
     mu = Oscillator(mu=1)
-    ans = mu.get_next_time_step([1, 5], 9)
+    ans = mu.next_step_normal([1, 5], 9)
     assert ans[0] == 5
     assert ans[1] == -1
-    ans = mu.get_next_time_step([-3, 0], 9)
+    ans = mu.next_step_normal([-3, 0], 9)
     assert ans[0] == 0
     assert ans[1] == 3
 
     # test with mu = 1
     unity_mu = Oscillator(mu=1)
-    ans = unity_mu.get_next_time_step([0, -1], 9)
+    ans = unity_mu.next_step_normal([0, -1], 9)
     assert ans[0] == -1
     assert ans[1] == -1
 
