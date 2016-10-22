@@ -92,7 +92,7 @@ class Plot(object):
     def save(self, name, save_fn):
         save_fn(self.fig, str(name))
 
-    def plot(self, sequences=None):
+    def plot(self, sequences=None, display=False):
         if sequences:
             self.sequences = sequences
         self.fig = plt.figure()
@@ -112,4 +112,5 @@ class Plot(object):
 
         mpl.rcParams['font.family'] = self.font_type['title']
         # plt.title(self.title, fontdict={'fontsize': self.font_size['title']})
-        self.fig.show()
+        if display:
+            self.fig.show()
